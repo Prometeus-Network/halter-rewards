@@ -15,7 +15,7 @@ import { join } from 'path';
   imports: [
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      debug: true,
+      introspection: true,
       playground: true,
     }),
     ConfigModule.forRoot({ load: [() => config] }),
