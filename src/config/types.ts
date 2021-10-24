@@ -1,3 +1,5 @@
+import type { UnitTypeLongPlural } from 'dayjs';
+
 export type AppConfig = {
   fleek: {
     key: string;
@@ -8,7 +10,7 @@ export type AppConfig = {
   startTimestamp: string;
   duration: {
     value: number;
-    metric: 'hours' | 'days' | string;
+    metric: UnitTypeLongPlural;
   };
   mocksEnabled: boolean;
   mongodbURL: string;
