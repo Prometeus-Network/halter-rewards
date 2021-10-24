@@ -1,4 +1,4 @@
-name: Build docker image
+name: Build & Deploy
 
 env:
   REGISTRY: registry.digitalocean.com
@@ -33,6 +33,7 @@ jobs:
   deploy:
     environment: testnet
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Deploy to k8s (testnet)
         uses: wahyd4/kubectl-helm-action@master
