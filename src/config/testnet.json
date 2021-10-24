@@ -1,0 +1,40 @@
+{
+  "subgraphURL": "https://testnet.thegraph.halter.finance/subgraphs/name/halter/halter",
+  "startTimestamp": "1633824000000",
+  "duration": {
+    "value": 5,
+    "metric": "days"
+  },
+  "pools": [
+    "0x48390fabc28c6dbaa4afc0e2172b6ad6195f4d2b000200000000000000000000",
+    "0x4c28cd7257568c5bbc9400c107676732cb98af42000200000000000000000001",
+    "0xbddf5e87a56eae93dc1d5be3263952343afb1512000200000000000000000003",
+    "0x5f01ed2a44d702b83a8dce2ae560e44b7f29f32b000200000000000000000004"
+  ],
+  "coinGecko": {
+    "tokenEquivalent": {
+      "0x1ef81cc9040a7bf316eed03bcae56edc645e1425": {
+        "network": "fantom",
+        "address": "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83"
+      },
+      "0xf8fb07d90394be63cecf6e50bee7b6bc3aec8a3a": {
+        "network": "fantom",
+        "address": "0x04068da6c83afcfa0e13ba15a6696662335d5b75"
+      },
+      "0x6858f300894169352ef40b8dd2596c99d904ff1d": {
+        "network": "ethereum",
+        "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+      },
+      "0xe3488bca094aa5a41964f1c2df813a8039b2ae72": {
+        "network": "ethereum",
+        "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+      }
+    }
+  },
+  "rewards": {
+    "phase1": 1000000,
+    "phase2": 2000000,
+    "phase3": 3000000,
+    "phase4": 4000000
+  }
+}

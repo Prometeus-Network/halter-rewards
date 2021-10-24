@@ -1,0 +1,45 @@
+name: Build docker image
+
+env:
+  REGISTRY: registry.digitalocean.com
+  IMAGE_NAME: halter/halter-rewards
+  HELM_CHART: halter-rewards
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build image
+        run: docker build -t $IMAGE_NAME .
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Push image to DO registry
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          doctl registry login
+          docker tag $IMAGE_NAME $REGISTRY/$IMAGE_NAME:latest
+          docker tag $IMAGE_NAME $REGISTRY/$IMAGE_NAME:$GITHUB_SHA
+          docker push $REGISTRY/$IMAGE_NAME:latest
+          docker push $REGISTRY/$IMAGE_NAME:$GITHUB_SHA
+  deploy:
+    environment: testnet
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to k8s (testnet)
+        uses: wahyd4/kubectl-helm-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          GITHUB_SHA: ${{ github.sha }}
+          CHART: testnet
+        with:
+          args: |
+            helm upgrade --install --set=image.tag=$GITHUB_SHA -f ./charts/$HELM_CHART/$CHART.yaml $HELM_CHART ./charts/$HELM_CHART

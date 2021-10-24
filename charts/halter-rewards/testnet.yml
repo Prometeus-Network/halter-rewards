@@ -1,0 +1,25 @@
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: '300'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '300'
+    kubernetes.io/ingress.class: 'nginx'
+    ingress.kubernetes.io/ssl-redirect: 'true'
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+  hosts:
+    - host: testnet.api-rewards.halter.finance
+      paths:
+        - path: '/'
+          pathType: Prefix
+  tls:
+    - secretName: halter-api-rewards-testnet-tls
+      hosts:
+        - testnet.api-rewards.halter.finance
+
+resources:
+  limits:
+    cpu: 250m
+    memory: 256Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
