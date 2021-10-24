@@ -14,6 +14,7 @@ import { AppConfig } from './config/types';
   imports: [
     GraphQLModule.forRoot({
       autoSchemaFile: true,
+      playground: true,
     }),
     ConfigModule.forRoot({ load: [() => config] }),
     MongooseModule.forRootAsync({
