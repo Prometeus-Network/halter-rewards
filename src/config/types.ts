@@ -8,7 +8,7 @@ export type AppConfig = {
   startTimestamp: string;
   duration: {
     value: number;
-    metric: 'hours' | 'days';
+    metric: 'hours' | 'days' | string;
   };
   mocksEnabled: boolean;
   mongodbURL: string;
