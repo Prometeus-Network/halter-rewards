@@ -10,6 +10,7 @@ export const Swaps = gql`
       tokenAmountOut
       caller
       tx
+      fee
       timestamp
       poolId {
         id

@@ -1,7 +1,7 @@
 import { AppConfig, Network } from './types';
 import testnet from './testnet.json';
 
-const network: Network = (process.env.NETWORK as Network) ?? 'testnet';
+export const network: Network = (process.env.NETWORK as Network) ?? 'testnet';
 
 const configs: Record<Network, AppConfig> = {
   testnet: testnet as unknown as AppConfig,

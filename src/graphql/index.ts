@@ -402,6 +402,54 @@ export enum OrderDirection {
   Desc = 'desc'
 }
 
+export type Penalty = {
+  __typename?: 'Penalty';
+  id: Scalars['ID'];
+  timestamp: Scalars['Int'];
+  amount: Scalars['BigInt'];
+  address: Scalars['Bytes'];
+};
+
+export type Penalty_Filter = {
+  id?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  timestamp?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
+  timestamp_gt?: Maybe<Scalars['Int']>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_gte?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  amount?: Maybe<Scalars['BigInt']>;
+  amount_not?: Maybe<Scalars['BigInt']>;
+  amount_gt?: Maybe<Scalars['BigInt']>;
+  amount_lt?: Maybe<Scalars['BigInt']>;
+  amount_gte?: Maybe<Scalars['BigInt']>;
+  amount_lte?: Maybe<Scalars['BigInt']>;
+  amount_in?: Maybe<Array<Scalars['BigInt']>>;
+  amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  address?: Maybe<Scalars['Bytes']>;
+  address_not?: Maybe<Scalars['Bytes']>;
+  address_in?: Maybe<Array<Scalars['Bytes']>>;
+  address_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  address_contains?: Maybe<Scalars['Bytes']>;
+  address_not_contains?: Maybe<Scalars['Bytes']>;
+};
+
+export enum Penalty_OrderBy {
+  Id = 'id',
+  Timestamp = 'timestamp',
+  Amount = 'amount',
+  Address = 'address'
+}
+
 export type Pool = {
   __typename?: 'Pool';
   id: Scalars['ID'];
@@ -1257,6 +1305,8 @@ export type Query = {
   investments: Array<Investment>;
   poolSnapshot?: Maybe<PoolSnapshot>;
   poolSnapshots: Array<PoolSnapshot>;
+  penalty?: Maybe<Penalty>;
+  penalties: Array<Penalty>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
 };
@@ -1502,6 +1552,22 @@ export type QueryPoolSnapshotsArgs = {
 };
 
 
+export type QueryPenaltyArgs = {
+  id: Scalars['ID'];
+  block?: Maybe<Block_Height>;
+};
+
+
+export type QueryPenaltiesArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Penalty_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  where?: Maybe<Penalty_Filter>;
+  block?: Maybe<Block_Height>;
+};
+
+
 export type Query_MetaArgs = {
   block?: Maybe<Block_Height>;
 };
@@ -1538,6 +1604,8 @@ export type Subscription = {
   investments: Array<Investment>;
   poolSnapshot?: Maybe<PoolSnapshot>;
   poolSnapshots: Array<PoolSnapshot>;
+  penalty?: Maybe<Penalty>;
+  penalties: Array<Penalty>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
 };
@@ -1779,6 +1847,22 @@ export type SubscriptionPoolSnapshotsArgs = {
   orderBy?: Maybe<PoolSnapshot_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   where?: Maybe<PoolSnapshot_Filter>;
+  block?: Maybe<Block_Height>;
+};
+
+
+export type SubscriptionPenaltyArgs = {
+  id: Scalars['ID'];
+  block?: Maybe<Block_Height>;
+};
+
+
+export type SubscriptionPenaltiesArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Penalty_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  where?: Maybe<Penalty_Filter>;
   block?: Maybe<Block_Height>;
 };
 
@@ -2174,6 +2258,15 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
+export type PenaltiesQueryVariables = Exact<{
+  filter?: Maybe<Penalty_Filter>;
+  offset?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type PenaltiesQuery = { __typename?: 'Query', penalties: Array<{ __typename?: 'Penalty', id: string, timestamp: number, amount: any }> };
+
 export type PoolTokensQueryVariables = Exact<{
   filter?: Maybe<PoolToken_Filter>;
 }>;
@@ -2188,4 +2281,4 @@ export type SwapsQueryVariables = Exact<{
 }>;
 
 
-export type SwapsQuery = { __typename?: 'Query', swaps: Array<{ __typename?: 'Swap', id: string, tokenIn: any, tokenOut: any, tokenAmountIn: any, tokenAmountOut: any, caller: any, tx: any, timestamp: number, poolId: { __typename?: 'Pool', id: string } }> };
+export type SwapsQuery = { __typename?: 'Query', swaps: Array<{ __typename?: 'Swap', id: string, tokenIn: any, tokenOut: any, tokenAmountIn: any, tokenAmountOut: any, caller: any, tx: any, fee: any, timestamp: number, poolId: { __typename?: 'Pool', id: string } }> };

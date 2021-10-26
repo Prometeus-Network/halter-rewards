@@ -91,8 +91,6 @@ export class TradingService {
         totalTradeVolume = totalTradeVolume.plus(swapTradeAmount);
       });
 
-      this.logger.log(swaps.length);
-
       swaps = (await allSwaps.next()).value;
     }
 
