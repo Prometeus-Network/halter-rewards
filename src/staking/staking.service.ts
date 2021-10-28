@@ -1,15 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import BigNumber from 'bignumber.js';
 import dayjs, { Dayjs } from 'dayjs';
-import { Model } from 'mongoose';
 import { config, network } from '../config';
 import { PenaltyService } from '../penalty/penalty.service';
 import { SwapsService } from '../swaps/swaps.service';
-import { StackingReward } from './schemas/staking-reward.schema';
+import { StakingRewardsService } from './staking-rewards/staking-rewards.service';
 
 const USDC_DECIMALS = {
   testnet: 10e18,
+  mainnet: 10e6,
 };
 
 @Injectable()
@@ -19,8 +18,7 @@ export class StakingService {
   constructor(
     private swapsService: SwapsService,
     private penaltyService: PenaltyService,
-    @InjectModel(StackingReward.name)
-    private stackingReward: Model<StackingReward>,
+    private stakingRewardService: StakingRewardsService,
   ) {}
 
   async calculate() {
@@ -47,34 +45,12 @@ export class StakingService {
       // TODO: update with real data
       const totalStakedPerWeek = new BigNumber(1000);
 
-      this.createStackingReward(
-        totalFee.div(totalStakedPerWeek),
-        totalPenalties.div(totalStakedPerWeek),
-        i,
-      );
+      this.stakingRewardService.createOrUpdate({
+        phase: i,
+        totalFee: totalFee.div(totalStakedPerWeek).toString(),
+        totalPenalties: totalPenalties.div(totalStakedPerWeek).toString(),
+      });
     }
-  }
-
-  async createStackingReward(
-    fee: BigNumber,
-    penalty: BigNumber,
-    phase: number,
-  ) {
-    const reward = {
-      phase,
-      totalFee: fee.toString(),
-      totalPenalties: penalty.toString(),
-    };
-
-    const stackingReward = await this.stackingReward.findOne({
-      phase: phase,
-    });
-
-    if (stackingReward) {
-      return await stackingReward.updateOne(reward);
-    }
-
-    return await this.stackingReward.create(reward);
   }
 
   async processPenalties(start: Dayjs, end: Dayjs, phase: number) {

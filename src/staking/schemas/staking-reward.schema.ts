@@ -2,11 +2,11 @@ import { ArgsType, Field, Int, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type StackingRewardDocument = StackingReward & Document;
+export type StakingRewardDocument = StakingReward & Document;
 
 @ObjectType()
 @Schema()
-export class StackingReward {
+export class StakingReward {
   @Prop()
   @Field()
   totalFee: string;
@@ -21,12 +21,9 @@ export class StackingReward {
 }
 
 @ArgsType()
-export class TradingRewardVariables {
-  @Field(() => String, { nullable: true })
-  address?: string;
+export class StakingRewardVariables {
   @Field(() => Int, { nullable: true })
   phase?: number;
 }
 
-export const StackingRewardSchema =
-  SchemaFactory.createForClass(StackingReward);
+export const StakingRewardSchema = SchemaFactory.createForClass(StakingReward);

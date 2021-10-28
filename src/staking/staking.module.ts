@@ -4,10 +4,11 @@ import { StakingResolver } from './staking.resolver';
 import { SwapsModule } from '../swaps/swaps.module';
 import { PenaltyModule } from '../penalty/penalty.module';
 import {
-  StackingReward,
-  StackingRewardSchema,
+  StakingReward,
+  StakingRewardSchema,
 } from './schemas/staking-reward.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { StakingRewardsService } from './staking-rewards/staking-rewards.service';
 
 @Module({
   imports: [
@@ -15,12 +16,12 @@ import { MongooseModule } from '@nestjs/mongoose';
     PenaltyModule,
     MongooseModule.forFeature([
       {
-        name: StackingReward.name,
-        schema: StackingRewardSchema,
+        name: StakingReward.name,
+        schema: StakingRewardSchema,
       },
     ]),
   ],
-  providers: [StakingService, StakingResolver],
+  providers: [StakingService, StakingResolver, StakingRewardsService],
   exports: [StakingService],
 })
 export class StakingModule {}
