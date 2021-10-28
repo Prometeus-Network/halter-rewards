@@ -14,6 +14,12 @@ export class TradingRewardsService {
     return this.tradingRewards.find(query);
   }
 
+  async isPaseExists(phase: number) {
+    return (
+      (await this.tradingRewards.find({ phase }).limit(1)).pop() !== undefined
+    );
+  }
+
   async createOrUpdate(reward: TradingReward) {
     const tradingReward = await this.tradingRewards.findOne({
       address: reward.address,

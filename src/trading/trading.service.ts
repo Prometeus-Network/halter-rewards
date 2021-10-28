@@ -43,6 +43,15 @@ export class TradingService {
         config.duration.metric,
       );
 
+      if (dayjs().diff(endTime) > 0) {
+        this.logger.log('Phase is over...');
+        const isPhaseExists = await this.tradingRewardService.isPaseExists(i);
+
+        if (isPhaseExists) {
+          continue;
+        }
+      }
+
       this.logger.log(startTime.format());
       this.logger.log(endTime.format());
 
