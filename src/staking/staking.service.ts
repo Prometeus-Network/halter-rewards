@@ -40,6 +40,15 @@ export class StakingService {
         config.duration.metric,
       );
 
+      if (dayjs().diff(endTime) > 0) {
+        this.logger.log('Phase is over...');
+        const isPhaseExists = await this.stakingRewardService.isPhaseExists(i);
+
+        if (isPhaseExists) {
+          continue;
+        }
+      }
+
       const totalFee = await this.processSwaps(startTime, endTime, i);
       const totalPenalties = await this.processPenalties(startTime, endTime, i);
       // TODO: update with real data

@@ -9,6 +9,8 @@ import { config } from './config';
 import { AppConfig } from './config/types';
 import { StakingModule } from './staking/staking.module';
 import { PenaltyModule } from './penalty/penalty.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { PenaltyModule } from './penalty/penalty.module';
     TradingModule,
     StakingModule,
     PenaltyModule,
+    AuthModule,
+    UsersModule,
   ],
   providers: [Logger, TasksService],
 })

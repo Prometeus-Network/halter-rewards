@@ -7,6 +7,7 @@ import { AppConfig } from './config/types';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
+    cors: true,
     logger: WinstonModule.createLogger({
       level: 'debug',
       transports: [
@@ -25,6 +26,6 @@ async function bootstrap() {
 
   const configService: ConfigService<AppConfig> = app.get(ConfigService);
 
-  await app.listen(configService.get('port', { infer: true }));
+  await app.listen(configService.get('port'));
 }
 bootstrap();

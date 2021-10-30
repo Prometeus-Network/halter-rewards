@@ -25,4 +25,10 @@ export class StakingRewardsService {
 
     return await this.stackingReward.create(reward);
   }
+
+  async isPhaseExists(phase: number) {
+    return (
+      (await this.stackingReward.find({ phase }).limit(1)).pop() !== undefined
+    );
+  }
 }

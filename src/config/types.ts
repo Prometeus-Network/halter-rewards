@@ -25,6 +25,9 @@ export type AppConfig = {
     >;
   };
   rewards: Record<string, number>;
+  jwt: {
+    secret: string;
+  };
 };
 
 export type Network = 'testnet';

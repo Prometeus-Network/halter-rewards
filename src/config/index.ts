@@ -15,4 +15,7 @@ export const config: AppConfig = {
     key: process.env.FLEEK_API_KEY || '',
     secret: process.env.FLEEK_API_SECRET || '',
   },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
 };
