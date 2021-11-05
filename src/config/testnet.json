@@ -37,5 +37,9 @@
     "phase3": 3000000,
     "phase4": 4000000
   },
-  "admins": ["0x2f64Ac13ad1646Bb45636A7DB8A5AD300327e41F"]
+  "admins": ["0x2f64Ac13ad1646Bb45636A7DB8A5AD300327e41F"],
+  "contracts": {
+    "tradingRewards": "0xfdd3B6Cc82d40F252D9532524999CC2B72f08DC2"
+  },
+  "rpc": "https://rpc.testnet.fantom.network/"
 }

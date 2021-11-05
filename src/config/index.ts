@@ -18,4 +18,5 @@ export const config: AppConfig = {
   jwt: {
     secret: process.env.JWT_SECRET,
   },
+  privateKey: process.env.PRIVATE_KEY,
 };

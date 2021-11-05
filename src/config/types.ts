@@ -28,6 +28,10 @@ export type AppConfig = {
   jwt: {
     secret: string;
   };
+  privateKey: string;
+  contracts: {
+    tradingRewards: string;
+  };
 };
 
 export type Network = 'testnet';

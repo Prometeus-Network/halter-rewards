@@ -8,11 +8,14 @@ import {
 import { TradingService } from './trading.service';
 import { TradingResolver } from './trading.resolver';
 import { TradingRewardsService } from './trading-rewards.service';
+import { TradingController } from './trading.controller';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   providers: [TradingService, TradingRewardsService, Logger, TradingResolver],
   imports: [
     SwapsModule,
+    ConfigModule,
     MongooseModule.forFeature([
       {
         name: TradingReward.name,
@@ -20,6 +23,7 @@ import { TradingRewardsService } from './trading-rewards.service';
       },
     ]),
   ],
+  controllers: [TradingController],
   exports: [TradingService],
 })
 export class TradingModule {}

@@ -22,6 +22,10 @@ export class TradingReward {
   @Prop()
   @Field()
   percentage: number;
+
+  @Prop()
+  @Field({ nullable: true })
+  paidOut?: boolean;
 }
 
 @ArgsType()
