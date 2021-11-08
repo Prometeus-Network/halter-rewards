@@ -9,10 +9,14 @@ import {
 } from './schemas/staking-reward.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { StakingRewardsService } from './staking-rewards/staking-rewards.service';
+import { WalletModule } from '../wallet/wallet.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     SwapsModule,
+    WalletModule,
+    ConfigModule,
     PenaltyModule,
     MongooseModule.forFeature([
       {

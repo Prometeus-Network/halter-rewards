@@ -6,6 +6,8 @@ import { ethers } from 'ethers';
 import { ConfigService } from '@nestjs/config';
 import TradingRewardsAbi from './contract/abi.json';
 import BigNumber from 'bignumber.js';
+import { AppConfig } from '../config/types';
+import { WalletService } from '../wallet/wallet.service';
 
 @Injectable()
 export class TradingRewardsService {
@@ -13,6 +15,7 @@ export class TradingRewardsService {
 
   constructor(
     private readonly configService: ConfigService,
+    private readonly walletService: WalletService,
     @InjectModel(TradingReward.name)
     private readonly tradingRewards: Model<TradingReward>,
   ) {}
@@ -47,20 +50,19 @@ export class TradingRewardsService {
   }
 
   async setRewardsInContract(phase: number) {
-    const contractAddress = this.configService.get('contracts.tradingRewards');
-
-    const wallet = new ethers.Wallet(
-      this.configService.get('privateKey'),
-      new ethers.providers.JsonRpcProvider(this.configService.get('rpc')),
-    );
+    const contracts: AppConfig['contracts'] =
+      this.configService.get('contracts');
+    const phases: AppConfig['phases'] = this.configService.get('phases');
 
     const contract = new ethers.Contract(
-      contractAddress,
+      contracts.tradingRewards,
       TradingRewardsAbi,
-      wallet,
+      this.walletService.wallet,
     );
 
-    const rewardsPerPhase = this.configService.get(`rewards.phase${phase + 1}`);
+    const rewardsPerPhase =
+      phases.trading.find((p) => p.week === phase)?.rewards ?? 0;
+
     this.logger.log(`Phase ${phase + 1}: ${rewardsPerPhase} HALT`);
 
     const rewards = await this.tradingRewards.find({

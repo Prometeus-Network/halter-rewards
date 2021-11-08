@@ -18,6 +18,14 @@ export class StakingReward {
   @Prop()
   @Field()
   phase: number;
+
+  @Prop()
+  @Field({ nullable: true })
+  feeRPS: string;
+
+  @Prop()
+  @Field({ nullable: true })
+  penaltyRPS: string;
 }
 
 @ArgsType()

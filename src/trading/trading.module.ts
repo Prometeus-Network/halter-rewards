@@ -10,12 +10,14 @@ import { TradingResolver } from './trading.resolver';
 import { TradingRewardsService } from './trading-rewards.service';
 import { TradingController } from './trading.controller';
 import { ConfigModule } from '@nestjs/config';
+import { WalletModule } from '../wallet/wallet.module';
 
 @Module({
   providers: [TradingService, TradingRewardsService, Logger, TradingResolver],
   imports: [
     SwapsModule,
     ConfigModule,
+    WalletModule,
     MongooseModule.forFeature([
       {
         name: TradingReward.name,

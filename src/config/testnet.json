@@ -31,14 +31,77 @@
       }
     }
   },
-  "rewards": {
-    "phase1": 1000000,
-    "phase2": 2000000,
-    "phase3": 3000000,
-    "phase4": 4000000
+  "phases": {
+    "trading": [
+      {
+        "start": 1633824000,
+        "end": 1633910400,
+        "rewards": 1000000,
+        "week": 0
+      },
+      {
+        "start": 1633910400,
+        "end": 1633996800,
+        "rewards": 2000000,
+        "week": 1
+      },
+      {
+        "start": 1633996800,
+        "end": 1634083200,
+        "rewards": 3000000,
+        "week": 2
+      }
+    ],
+    "liquidity": [
+      {
+        "start": 1633824000,
+        "end": 1633910400,
+        "rewards": 1000000,
+        "week": 0
+      },
+      {
+        "start": 1633910400,
+        "end": 1633996800,
+        "rewards": 2000000,
+        "week": 1
+      },
+      {
+        "start": 1633996800,
+        "end": 1634083200,
+        "rewards": 3000000,
+        "week": 2
+      }
+    ],
+    "staking": [
+      {
+        "start": 1633824000,
+        "end": 1633910400,
+        "rewards": 1000000,
+        "week": 0
+      },
+      {
+        "start": 1633910400,
+        "end": 1633996800,
+        "rewards": 2000000,
+        "week": 1
+      },
+      {
+        "start": 1633996800,
+        "end": 1634083200,
+        "rewards": 3000000,
+        "week": 2
+      },
+      {
+        "start": 1634083200,
+        "end": 1636678800,
+        "rewards": 3000000,
+        "week": 3
+      }
+    ]
   },
   "admins": ["0x2f64Ac13ad1646Bb45636A7DB8A5AD300327e41F"],
   "contracts": {
+    "staking": "0x18562d0B905E6F6E2686C81B34C23f1BC56fc660",
     "tradingRewards": "0xfdd3B6Cc82d40F252D9532524999CC2B72f08DC2"
   },
   "rpc": "https://rpc.testnet.fantom.network/"

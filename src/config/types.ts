@@ -1,4 +1,9 @@
-import type { UnitTypeLongPlural } from 'dayjs';
+type Phase = {
+  week: number;
+  start: number;
+  end: number;
+  rewards: number;
+};
 
 export type AppConfig = {
   fleek: {
@@ -7,11 +12,6 @@ export type AppConfig = {
   };
   port: string;
   subgraphURL: string;
-  startTimestamp: string;
-  duration: {
-    value: number;
-    metric: UnitTypeLongPlural;
-  };
   mocksEnabled: boolean;
   mongodbURL: string;
   pools: string[];
@@ -24,12 +24,17 @@ export type AppConfig = {
       }
     >;
   };
-  rewards: Record<string, number>;
+  phases: {
+    trading: Phase[];
+    liquidity: Phase[];
+    staking: Phase[];
+  };
   jwt: {
     secret: string;
   };
   privateKey: string;
   contracts: {
+    staking: string;
     tradingRewards: string;
   };
 };

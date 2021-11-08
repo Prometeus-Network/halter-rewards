@@ -1,10 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import BigNumber from 'bignumber.js';
 import dayjs, { Dayjs } from 'dayjs';
 import { config, network } from '../config';
 import { PenaltyService } from '../penalty/penalty.service';
 import { SwapsService } from '../swaps/swaps.service';
+import { WalletService } from '../wallet/wallet.service';
 import { StakingRewardsService } from './staking-rewards/staking-rewards.service';
+import StakingRewardsAbi from './contract/abi.json';
+import { ethers } from 'ethers';
+import { AppConfig } from '../config/types';
 
 const USDC_DECIMALS = {
   testnet: 10e18,
@@ -16,50 +21,62 @@ export class StakingService {
   private logger: Logger = new Logger(StakingService.name);
 
   constructor(
-    private swapsService: SwapsService,
-    private penaltyService: PenaltyService,
-    private stakingRewardService: StakingRewardsService,
+    private readonly configService: ConfigService,
+    private readonly walletService: WalletService,
+    private readonly swapsService: SwapsService,
+    private readonly penaltyService: PenaltyService,
+    private readonly stakingRewardService: StakingRewardsService,
   ) {}
 
   async calculate() {
-    const startTimestamp = dayjs(parseInt(config.startTimestamp, 10));
-
-    const maxPhases = Math.ceil(
-      Math.abs(startTimestamp.diff(dayjs(), config.duration.metric, true)) /
-        config.duration.value,
-    );
-    for (let i = 0; i < maxPhases; i++) {
-      this.logger.log(`Processing phase ${i + 1}`);
-      const startTime = startTimestamp.add(
-        i * config.duration.value,
-        config.duration.metric,
-      );
-
-      const endTime = startTimestamp.add(
-        (i + 1) * config.duration.value,
-        config.duration.metric,
-      );
+    for (const phase of config.phases.staking) {
+      this.logger.log(`Processing phase ${phase.week + 1}`);
+      const startTime = dayjs.unix(phase.start);
+      const endTime = dayjs.unix(phase.end);
 
       if (dayjs().diff(endTime) > 0) {
         this.logger.log('Phase is over...');
-        const isPhaseExists = await this.stakingRewardService.isPhaseExists(i);
+        const isPhaseExists = await this.stakingRewardService.isPhaseExists(
+          phase.week,
+        );
 
         if (isPhaseExists) {
           continue;
         }
       }
 
-      const totalFee = await this.processSwaps(startTime, endTime, i);
-      const totalPenalties = await this.processPenalties(startTime, endTime, i);
-      // TODO: update with real data
-      const totalStakedPerWeek = new BigNumber(1000);
+      this.logger.log(startTime.format());
+      this.logger.log(endTime.format());
+
+      const totalFee = await this.processSwaps(startTime, endTime, phase.week);
+      const totalPenalties = await this.processPenalties(
+        startTime,
+        endTime,
+        phase.week,
+      );
+
+      const contracts: AppConfig['contracts'] =
+        this.configService.get('contracts');
+
+      const contract = new ethers.Contract(
+        contracts.staking,
+        StakingRewardsAbi,
+        this.walletService.provider,
+      );
+
+      const totalStakedPerWeek = (await contract.weekInfo(phase.week))
+        .highestStakedPoint;
 
       this.stakingRewardService.createOrUpdate({
-        phase: i,
-        totalFee: totalFee.div(totalStakedPerWeek).toString(),
-        totalPenalties: totalPenalties.div(totalStakedPerWeek).toString(),
+        phase: phase.week,
+        totalFee: totalFee.toString(),
+        totalPenalties: totalPenalties.toString(),
+        feeRPS: totalFee.div(totalStakedPerWeek).toString(),
+        penaltyRPS: totalPenalties.div(totalStakedPerWeek).toString(),
       });
     }
+
+    this.logger.log('Calculated user rewards');
   }
 
   async processPenalties(start: Dayjs, end: Dayjs, phase: number) {

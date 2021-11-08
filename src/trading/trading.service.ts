@@ -23,29 +23,16 @@ export class TradingService {
   async calculate() {
     const poolTokens = await this.getPoolTokens();
 
-    const startTimestamp = dayjs(parseInt(config.startTimestamp, 10));
-
-    const maxPhases = Math.ceil(
-      Math.abs(startTimestamp.diff(dayjs(), config.duration.metric, true)) /
-        config.duration.value,
-    );
-
-    for (let i = 0; i < maxPhases; i++) {
-      this.logger.log(`Processing phase ${i + 1}`);
-
-      const startTime = startTimestamp.add(
-        i * config.duration.value,
-        config.duration.metric,
-      );
-
-      const endTime = startTimestamp.add(
-        (i + 1) * config.duration.value,
-        config.duration.metric,
-      );
+    for (const phase of config.phases.trading) {
+      this.logger.log(`Processing phase ${phase.week + 1}`);
+      const startTime = dayjs.unix(phase.start);
+      const endTime = dayjs.unix(phase.end);
 
       if (dayjs().diff(endTime) > 0) {
         this.logger.log('Phase is over...');
-        const isPhaseExists = await this.tradingRewardService.isPaseExists(i);
+        const isPhaseExists = await this.tradingRewardService.isPaseExists(
+          phase.week,
+        );
 
         if (isPhaseExists) {
           continue;
@@ -61,7 +48,7 @@ export class TradingService {
         endTime,
       );
 
-      await this.processSwaps(startTime, endTime, prices, i);
+      await this.processSwaps(startTime, endTime, prices, phase.week);
     }
   }
 
