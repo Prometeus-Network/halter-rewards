@@ -2,48 +2,18 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_reservoir",
-        "type": "address"
-      },
-      {
-        "internalType": "contract IERC20",
-        "name": "_rewardToken",
-        "type": "address"
-      },
-      {
-        "internalType": "contract IERC20",
-        "name": "_stakeToken",
-        "type": "address"
-      },
-      {
         "internalType": "uint256",
-        "name": "_startWeekNumber",
+        "name": "prod1",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "_startWeekStartTime",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_startWeekEndTime",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_amountOfWeeksToSet",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_rewardsVestingDuration",
+        "name": "denominator",
         "type": "uint256"
       }
     ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    "name": "PRBMath__MulDivOverflow",
+    "type": "error"
   },
   {
     "anonymous": false,
@@ -69,18 +39,74 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "previousAdminRole",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "newAdminRole",
+        "type": "bytes32"
+      }
+    ],
+    "name": "RoleAdminChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
         "internalType": "address",
-        "name": "previousOwner",
+        "name": "account",
         "type": "address"
       },
       {
         "indexed": true,
         "internalType": "address",
-        "name": "newOwner",
+        "name": "sender",
         "type": "address"
       }
     ],
-    "name": "OwnershipTransferred",
+    "name": "RoleGranted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      }
+    ],
+    "name": "RoleRevoked",
     "type": "event"
   },
   {
@@ -154,74 +180,38 @@
   },
   {
     "inputs": [],
-    "name": "WithdrawUnlockedTokens",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "calculatedUnvestedDirtyRewardData",
+    "name": "DEFAULT_ADMIN_ROLE",
     "outputs": [
       {
-        "internalType": "uint256",
-        "name": "amountLeftToClaim",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "secondsLeft",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "endTime",
-        "type": "uint256"
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "calculatedUnvestedFalseDirtyData",
+    "inputs": [],
+    "name": "TREASURY_ROLE",
     "outputs": [
       {
-        "internalType": "uint256",
-        "name": "falseAmountLeftToClaim",
-        "type": "uint256"
-      },
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "UPDATER_ROLE",
+    "outputs": [
       {
-        "internalType": "uint256",
-        "name": "secondsLeft",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "endTime",
-        "type": "uint256"
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",
@@ -294,21 +284,138 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "owner",
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      }
+    ],
+    "name": "getRoleAdmin",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "bytes32",
         "name": "",
-        "type": "address"
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "renounceOwnership",
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "grantRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "hasRole",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_reservoir",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IERC20",
+        "name": "_rewardToken",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IERC20",
+        "name": "_stakeToken",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_startWeekNumber",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_startWeekStartTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_startWeekEndTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amountOfWeeksToSet",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_rewardsVestingDuration",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_treasury",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_updater",
+        "type": "address"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "renounceRole",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -329,12 +436,43 @@
   {
     "inputs": [
       {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "revokeRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "",
         "type": "address"
       }
     ],
     "name": "rewardClaimed",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rewardRateCoeff",
     "outputs": [
       {
         "internalType": "uint256",
@@ -516,14 +654,20 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
+        "internalType": "bytes4",
+        "name": "interfaceId",
+        "type": "bytes4"
       }
     ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "supportsInterface",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -631,7 +775,26 @@
         "type": "uint256"
       }
     ],
-    "name": "viewRewards",
+    "name": "viewTotalRewards",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "reward",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_weekNumber",
+        "type": "uint256"
+      }
+    ],
+    "name": "viewVestedRewards",
     "outputs": [
       {
         "internalType": "uint256",
@@ -731,6 +894,13 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdrawUnlockedTokens",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

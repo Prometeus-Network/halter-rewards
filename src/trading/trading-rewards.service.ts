@@ -1,13 +1,15 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotAcceptableException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
 import { TradingReward } from './schemas/trading-reward.schema';
 import { ethers } from 'ethers';
 import { ConfigService } from '@nestjs/config';
-import TradingRewardsAbi from './contract/abi.json';
+import TradingRewardsAbi from './contracts/rewards.json';
 import BigNumber from 'bignumber.js';
 import { AppConfig } from '../config/types';
 import { WalletService } from '../wallet/wallet.service';
+import dayjs from 'dayjs';
+import { config } from '../config';
 
 @Injectable()
 export class TradingRewardsService {
@@ -44,6 +46,17 @@ export class TradingRewardsService {
   }
 
   async payOut(phase: number) {
+    const phaseConfig = config.phases.trading;
+
+    const endTime = dayjs.unix(
+      phaseConfig.start + phaseConfig.duration + phase * phaseConfig.duration,
+    );
+
+    if (dayjs().diff(endTime) < 0) {
+      this.logger.log('Phase is not yet over...');
+      throw new NotAcceptableException('Phase is not yet over');
+    }
+
     await this.tradingRewards.updateMany({ phase }, { paidOut: true });
 
     this.setRewardsInContract(phase);
@@ -60,10 +73,9 @@ export class TradingRewardsService {
       this.walletService.wallet,
     );
 
-    const rewardsPerPhase =
-      phases.trading.find((p) => p.week === phase)?.rewards ?? 0;
+    const rewardsPerPhase = phases.trading.rewards[phase];
 
-    this.logger.log(`Phase ${phase + 1}: ${rewardsPerPhase} HALT`);
+    this.logger.log(`Phase ${phase}: ${rewardsPerPhase} HALT`);
 
     const rewards = await this.tradingRewards.find({
       phase,
@@ -82,7 +94,7 @@ export class TradingRewardsService {
           throw new Error('No vesting found');
         }
         this.logger.log(
-          `Vesting found for ${reward.address}, phase ${reward.phase + 1}`,
+          `Vesting found for ${reward.address}, phase ${reward.phase}`,
         );
       } catch (error) {
         this.logger.error(error);
@@ -95,7 +107,7 @@ export class TradingRewardsService {
           .dividedBy(period);
 
         await contract.addVesting(
-          amountPerSecond.integerValue().toString(),
+          amountPerSecond.integerValue(BigNumber.ROUND_FLOOR).toString(),
           reward.address,
           reward.phase.toString(),
           period,

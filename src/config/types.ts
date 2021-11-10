@@ -1,8 +1,7 @@
 type Phase = {
-  week: number;
   start: number;
-  end: number;
-  rewards: number;
+  duration: number;
+  rewards: number[];
 };
 
 export type AppConfig = {
@@ -25,7 +24,7 @@ export type AppConfig = {
     >;
   };
   phases: {
-    trading: Phase[];
+    trading: Phase;
     liquidity: Phase[];
     staking: Phase[];
   };
@@ -34,7 +33,8 @@ export type AppConfig = {
   };
   privateKey: string;
   contracts: {
-    staking: string;
+    lockedStaking: string;
+    unlockedStaking: string;
     tradingRewards: string;
   };
 };

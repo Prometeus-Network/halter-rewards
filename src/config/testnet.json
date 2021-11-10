@@ -1,10 +1,5 @@
 {
   "subgraphURL": "https://testnet.thegraph.halter.finance/subgraphs/name/halter/halter",
-  "startTimestamp": "1633824000000",
-  "duration": {
-    "value": 5,
-    "metric": "days"
-  },
   "pools": [
     "0x48390fabc28c6dbaa4afc0e2172b6ad6195f4d2b000200000000000000000000",
     "0x4c28cd7257568c5bbc9400c107676732cb98af42000200000000000000000001",
@@ -32,77 +27,17 @@
     }
   },
   "phases": {
-    "trading": [
-      {
-        "start": 1633824000,
-        "end": 1633910400,
-        "rewards": 1000000,
-        "week": 0
-      },
-      {
-        "start": 1633910400,
-        "end": 1633996800,
-        "rewards": 2000000,
-        "week": 1
-      },
-      {
-        "start": 1633996800,
-        "end": 1634083200,
-        "rewards": 3000000,
-        "week": 2
-      }
-    ],
-    "liquidity": [
-      {
-        "start": 1633824000,
-        "end": 1633910400,
-        "rewards": 1000000,
-        "week": 0
-      },
-      {
-        "start": 1633910400,
-        "end": 1633996800,
-        "rewards": 2000000,
-        "week": 1
-      },
-      {
-        "start": 1633996800,
-        "end": 1634083200,
-        "rewards": 3000000,
-        "week": 2
-      }
-    ],
-    "staking": [
-      {
-        "start": 1633824000,
-        "end": 1633910400,
-        "rewards": 1000000,
-        "week": 0
-      },
-      {
-        "start": 1633910400,
-        "end": 1633996800,
-        "rewards": 2000000,
-        "week": 1
-      },
-      {
-        "start": 1633996800,
-        "end": 1634083200,
-        "rewards": 3000000,
-        "week": 2
-      },
-      {
-        "start": 1634083200,
-        "end": 1636678800,
-        "rewards": 3000000,
-        "week": 3
-      }
-    ]
+    "trading": {
+      "start": 1636485730,
+      "duration": 604800,
+      "rewards": [10000000, 5000000, 2500000, 1250000]
+    }
   },
   "admins": ["0x2f64Ac13ad1646Bb45636A7DB8A5AD300327e41F"],
   "contracts": {
-    "staking": "0x18562d0B905E6F6E2686C81B34C23f1BC56fc660",
-    "tradingRewards": "0xfdd3B6Cc82d40F252D9532524999CC2B72f08DC2"
+    "lockedStaking": "0x4BB676F2E476F2A08F7B2CcBaC3D37b6b722ea43",
+    "unlockedStaking": "0x2684B875a580da9f763D01ba6182a0f1Fb35eDa7",
+    "tradingRewards": "0x0768DAf44c8dA0A0BB2303e44349818D02f84F92"
   },
   "rpc": "https://rpc.testnet.fantom.network/"
 }
