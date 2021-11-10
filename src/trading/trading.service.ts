@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import dayjs, { Dayjs } from 'dayjs';
 import BigNumber from 'bignumber.js';
-import { config } from '../config';
+import { config, network } from '../config';
 import { coinGeckoClient } from '../config/coingecko.client';
 import { graphqlClient } from '../config/graphql.client';
 import { PoolTokensQuery, PoolTokensQueryVariables, Swap } from '../graphql';
@@ -47,7 +47,7 @@ export class TradingService {
         this.logger.log('Phase is over...');
         const isPhaseExists = await this.tradingRewardService.isPaseExists(i);
 
-        if (isPhaseExists) {
+        if (isPhaseExists && network !== 'testnet') {
           continue;
         }
       }

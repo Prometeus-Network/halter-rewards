@@ -12,6 +12,8 @@ import { PenaltyModule } from './penalty/penalty.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { WalletModule } from './wallet/wallet.module';
+import { TerminusModule } from '@nestjs/terminus';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
@@ -37,7 +39,9 @@ import { WalletModule } from './wallet/wallet.module';
     AuthModule,
     UsersModule,
     WalletModule,
+    TerminusModule,
   ],
+  controllers: [HealthController],
   providers: [Logger, TasksService],
 })
 export class AppModule implements OnModuleInit {

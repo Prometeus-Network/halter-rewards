@@ -54,7 +54,7 @@ export class StakingService {
         this.logger.log('Phase is over...');
         const isPhaseExists = await this.stakingRewardService.isPhaseExists(i);
 
-        if (isPhaseExists) {
+        if (isPhaseExists && network !== 'testnet') {
           continue;
         }
       }
