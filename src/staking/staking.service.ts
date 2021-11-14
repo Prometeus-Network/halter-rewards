@@ -62,7 +62,6 @@ export class StakingService {
       this.logger.log(startTime.format());
       this.logger.log(endTime.format());
 
-      // TODO: check if invest also has fees
       const totalFee = await this.processSwaps(startTime, endTime, i);
       const totalPenalties = await this.processPenalties(startTime, endTime, i);
 
