@@ -14,6 +14,7 @@ import { UsersModule } from './users/users.module';
 import { WalletModule } from './wallet/wallet.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './health/health.controller';
+import { LiquidityModule } from './liquidity/liquidity.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { HealthController } from './health/health.controller';
     UsersModule,
     WalletModule,
     TerminusModule,
+    LiquidityModule,
   ],
   controllers: [HealthController],
   providers: [Logger, TasksService],
@@ -50,5 +52,6 @@ export class AppModule implements OnModuleInit {
   onModuleInit() {
     this.tasksService.handleTradingRewardsCron();
     this.tasksService.handleStakingRewardsCron();
+    this.tasksService.handleLiquidityCron();
   }
 }

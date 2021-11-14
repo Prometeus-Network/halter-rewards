@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { LiquidityService } from '../liquidity/liquidity.service';
 import { StakingService } from '../staking/staking.service';
 import { TradingService } from '../trading/trading.service';
 
@@ -11,6 +12,7 @@ export class TasksService {
   constructor(
     private readonly tradingService: TradingService,
     private readonly stakingService: StakingService,
+    private readonly liquidityService: LiquidityService,
   ) {}
 
   @Cron(CronExpression.EVERY_HOUR)
@@ -23,6 +25,20 @@ export class TasksService {
   async handleStakingRewardsCron() {
     this.logger.log(`${StakingService.name} running`);
     await this.stakingService.calculate();
+  }
+
+  @Cron(CronExpression.EVERY_HOUR)
+  async handleLiquidityCron() {
+    this.logger.log(`${LiquidityService.name} running`);
+    await this.liquidityService.calculate();
+  }
+
+  @Cron('59 23 * * 0', {
+    timeZone: 'Europe/London',
+  })
+  async handleLiquidityPayoutCron() {
+    this.logger.log(`${LiquidityService.name} running`);
+    await this.liquidityService.payOut();
   }
 
   @Cron('59 23 * * 0', {

@@ -36,10 +36,26 @@
       "start": 1636485730,
       "duration": 604800,
       "rewards": [10000000, 5000000, 2500000, 1250000]
+    },
+    "liquidity": {
+      "start": 1636485730,
+      "duration": 604800,
+      "rewards": {
+        "0x5cF1e055324708148EF6Aa75a4d5e6E0e94b33F7": [
+          1875000, 937500, 468750, 234375
+        ],
+        "0xd1Ac7621CbbF3f47c9f59B17Ab61822fD86278E3": [
+          1875000, 937500, 468750, 234375
+        ]
+      }
     }
   },
   "admins": ["0x2f64Ac13ad1646Bb45636A7DB8A5AD300327e41F"],
   "contracts": {
+    "liquidityRewards": [
+      "0x5cF1e055324708148EF6Aa75a4d5e6E0e94b33F7",
+      "0xd1Ac7621CbbF3f47c9f59B17Ab61822fD86278E3"
+    ],
     "lockedStaking": "0x4BB676F2E476F2A08F7B2CcBaC3D37b6b722ea43",
     "unlockedStaking": "0x2684B875a580da9f763D01ba6182a0f1Fb35eDa7",
     "tradingRewards": "0x0768DAf44c8dA0A0BB2303e44349818D02f84F92"

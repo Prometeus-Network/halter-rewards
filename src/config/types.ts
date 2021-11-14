@@ -4,6 +4,12 @@ type Phase = {
   rewards: number[];
 };
 
+type LiquidityPhase = {
+  start: number;
+  duration: number;
+  rewards: Record<string, number[]>;
+};
+
 export type AppConfig = {
   fleek: {
     key: string;
@@ -25,7 +31,7 @@ export type AppConfig = {
   };
   phases: {
     trading: Phase;
-    liquidity: Phase;
+    liquidity: LiquidityPhase;
     staking: Phase;
   };
   jwt: {
@@ -36,6 +42,7 @@ export type AppConfig = {
     lockedStaking: string;
     unlockedStaking: string;
     tradingRewards: string;
+    liquidityRewards: string[];
   };
 };
 
