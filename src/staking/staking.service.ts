@@ -30,7 +30,7 @@ export class StakingService {
   ) {}
 
   async calculate() {
-    const phaseConfig = config.phases.trading;
+    const phaseConfig = config.phases.staking;
     const startTimestamp = dayjs.unix(phaseConfig.start);
 
     const maxPhases = Math.ceil(
@@ -62,6 +62,7 @@ export class StakingService {
       this.logger.log(startTime.format());
       this.logger.log(endTime.format());
 
+      // TODO: check if invest also has fees
       const totalFee = await this.processSwaps(startTime, endTime, i);
       const totalPenalties = await this.processPenalties(startTime, endTime, i);
 
@@ -80,22 +81,23 @@ export class StakingService {
         this.walletService.provider,
       );
 
-      // TODO: add second highestStakedPoint  from LOCKED contract
       const { highestStakedPoint: lockedHighestStakedPoint } =
         await lockedContract.weekInfo(i);
 
       const { highestStakedPoint: unlockedHighestStakedPoint } =
         await unlockedContract.weekInfo(i);
 
-      // TODO: divide per seconds in  week
+      const penaltyRPS = totalPenalties.div(lockedHighestStakedPoint);
+      const feeRPS = totalFee.div(
+        lockedHighestStakedPoint.add(unlockedHighestStakedPoint),
+      );
+
       this.stakingRewardService.createOrUpdate({
         phase: i,
         totalFee: totalFee.toString(),
         totalPenalties: totalPenalties.toString(),
-        feeRPS: totalFee
-          .div(lockedHighestStakedPoint.add(unlockedHighestStakedPoint))
-          .toString(),
-        penaltyRPS: totalPenalties.div(lockedHighestStakedPoint).toString(),
+        feeRPS: feeRPS.toString(),
+        penaltyRPS: penaltyRPS.toString(),
       });
     }
 
@@ -152,5 +154,43 @@ export class StakingService {
     this.logger.log(`Total fee for phase ${phase}: ${totalFee.toString()}`);
 
     return totalFee;
+  }
+
+  async setWeekStateInContract() {
+    const contracts: AppConfig['contracts'] =
+      this.configService.get('contracts');
+
+    const lockedContract = new ethers.Contract(
+      contracts.lockedStaking,
+      LockedStackingAbi,
+      this.walletService.wallet,
+    );
+
+    const unlockedContract = new ethers.Contract(
+      contracts.unlockedStaking,
+      UnlockedStackingAbi,
+      this.walletService.wallet,
+    );
+
+    const stakingRewards = await this.stakingRewardService.findAll({});
+
+    for (const { feeRPS, penaltyRPS, phase } of stakingRewards) {
+      const phaseConfig = config.phases.staking;
+
+      const endTime = dayjs.unix(
+        phaseConfig.start + phaseConfig.duration + phase * phaseConfig.duration,
+      );
+
+      if (dayjs().diff(endTime) < 0) {
+        this.logger.log('Phase is not yet over...');
+        continue;
+      }
+
+      await lockedContract.setWeekState(
+        phase,
+        new BigNumber(penaltyRPS).plus(new BigNumber(feeRPS)),
+      );
+      await unlockedContract.setWeekState(phase, new BigNumber(feeRPS));
+    }
   }
 }

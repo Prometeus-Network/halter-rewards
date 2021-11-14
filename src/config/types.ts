@@ -25,8 +25,8 @@ export type AppConfig = {
   };
   phases: {
     trading: Phase;
-    liquidity: Phase[];
-    staking: Phase[];
+    liquidity: Phase;
+    staking: Phase;
   };
   jwt: {
     secret: string;
