@@ -1,21 +1,5 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "prod1",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "denominator",
-        "type": "uint256"
-      }
-    ],
-    "name": "PRBMath__MulDivOverflow",
-    "type": "error"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
@@ -146,6 +130,31 @@
       {
         "indexed": false,
         "internalType": "uint256",
+        "name": "weekNumber",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "WithdrawLockStarted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "staker",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
       }
@@ -156,6 +165,19 @@
   {
     "inputs": [],
     "name": "DEFAULT_ADMIN_ROLE",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "EMERGENCY_ROLE",
     "outputs": [
       {
         "internalType": "bytes32",
@@ -201,6 +223,32 @@
       }
     ],
     "name": "claimRewards",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "decimalsDenominator",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_weekNumber",
+        "type": "uint256"
+      }
+    ],
+    "name": "emergencyWeekUnlock",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -370,6 +418,16 @@
         "internalType": "address",
         "name": "_updater",
         "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_emergency",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_decimalsDenominator",
+        "type": "uint256"
       }
     ],
     "name": "initialize",
@@ -424,25 +482,6 @@
     "name": "revokeRole",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "rewardClaimed",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -611,6 +650,24 @@
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_weekNumber",
+        "type": "uint256"
+      }
+    ],
+    "name": "startWithdrawLock",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes4",
         "name": "interfaceId",
         "type": "bytes4"
@@ -763,6 +820,31 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "viewWithdrawPurgatoryArray",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unlockTime",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct HalterStakingLocked.LockWithdraw[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -789,16 +871,6 @@
       },
       {
         "internalType": "uint256",
-        "name": "staked",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "stakesWithdrawn",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
         "name": "totalStakedAmount",
         "type": "uint256"
       },
@@ -806,6 +878,11 @@
         "internalType": "uint256",
         "name": "highestStakedPoint",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isUpdated",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -814,19 +891,30 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
-        "name": "_amount",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdrawPurgatory",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "_weekNumber",
+        "name": "unlockTime",
         "type": "uint256"
       }
     ],
-    "name": "withdraw",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -840,6 +928,13 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdrawUnlockedTokens",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]
