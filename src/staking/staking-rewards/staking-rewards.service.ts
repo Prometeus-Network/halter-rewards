@@ -31,4 +31,8 @@ export class StakingRewardsService {
       (await this.stackingReward.find({ phase }).limit(1)).pop() !== undefined
     );
   }
+
+  async reset() {
+    return await this.stackingReward.deleteMany({});
+  }
 }

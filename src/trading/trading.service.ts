@@ -20,7 +20,11 @@ export class TradingService {
     private readonly tradingRewardService: TradingRewardsService,
   ) {}
 
-  async calculate() {
+  async calculate(reset = false) {
+    if (reset) {
+      await this.tradingRewardService.reset();
+    }
+
     const poolTokens = await this.getPoolTokens();
     const phaseConfig = config.phases.trading;
 

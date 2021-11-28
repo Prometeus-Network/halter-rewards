@@ -15,6 +15,7 @@ import { WalletModule } from './wallet/wallet.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './health/health.controller';
 import { LiquidityModule } from './liquidity/liquidity.module';
+import { AppController } from './app/app.controller';
 
 @Module({
   imports: [
@@ -43,7 +44,7 @@ import { LiquidityModule } from './liquidity/liquidity.module';
     TerminusModule,
     LiquidityModule,
   ],
-  controllers: [HealthController],
+  controllers: [HealthController, AppController],
   providers: [Logger, TasksService],
 })
 export class AppModule implements OnModuleInit {

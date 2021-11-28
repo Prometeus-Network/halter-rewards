@@ -19,7 +19,11 @@ export class LiquidityService {
     private readonly liquidityReward: Model<LiquidityReward>,
   ) {}
 
-  async calculate() {
+  async calculate(reset = false) {
+    if (reset) {
+      await this.liquidityReward.deleteMany({});
+    }
+
     const phaseConfig = config.phases.liquidity;
     const startTimestamp = dayjs.unix(phaseConfig.start);
 

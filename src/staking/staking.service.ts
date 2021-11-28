@@ -29,7 +29,11 @@ export class StakingService {
     private readonly stakingRewardService: StakingRewardsService,
   ) {}
 
-  async calculate() {
+  async calculate(reset = false) {
+    if (reset) {
+      await this.stakingRewardService.reset();
+    }
+
     const phaseConfig = config.phases.staking;
     const startTimestamp = dayjs.unix(phaseConfig.start);
 

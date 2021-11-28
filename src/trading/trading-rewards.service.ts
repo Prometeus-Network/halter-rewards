@@ -45,6 +45,10 @@ export class TradingRewardsService {
     return await this.tradingRewards.create(reward);
   }
 
+  async reset() {
+    return await this.tradingRewards.deleteMany({});
+  }
+
   async payOut(phase: number) {
     const phaseConfig = config.phases.trading;
 
