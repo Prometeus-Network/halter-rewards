@@ -41,10 +41,10 @@
       "start": 1636485730,
       "duration": 604800,
       "rewards": {
-        "0x5cF1e055324708148EF6Aa75a4d5e6E0e94b33F7": [
+        "0xa719ef2AA44D8c445676a5Da0bc6bD042486A6F5": [
           1875000, 937500, 468750, 234375
         ],
-        "0xd1Ac7621CbbF3f47c9f59B17Ab61822fD86278E3": [
+        "0x212E1c0b49d9664D196172ccFd6E66926Bd530a4": [
           1875000, 937500, 468750, 234375
         ]
       }
@@ -53,12 +53,12 @@
   "admins": ["0x2f64Ac13ad1646Bb45636A7DB8A5AD300327e41F"],
   "contracts": {
     "liquidityRewards": [
-      "0x5cF1e055324708148EF6Aa75a4d5e6E0e94b33F7",
-      "0xd1Ac7621CbbF3f47c9f59B17Ab61822fD86278E3"
+      "0xa719ef2AA44D8c445676a5Da0bc6bD042486A6F5",
+      "0x212E1c0b49d9664D196172ccFd6E66926Bd530a4"
     ],
-    "lockedStaking": "0x4BB676F2E476F2A08F7B2CcBaC3D37b6b722ea43",
-    "unlockedStaking": "0x2684B875a580da9f763D01ba6182a0f1Fb35eDa7",
-    "tradingRewards": "0x0768DAf44c8dA0A0BB2303e44349818D02f84F92"
+    "lockedStaking": "0xD9CB35D93bb5A601AD492462084D338B88386242",
+    "unlockedStaking": "0x77972706E37B221052DD55aBFb32B13966865313",
+    "tradingRewards": "0x0A572c1F4711502f8F656049F6f2f9153fEEF058"
   },
   "rpc": "https://rpc.testnet.fantom.network/"
 }
